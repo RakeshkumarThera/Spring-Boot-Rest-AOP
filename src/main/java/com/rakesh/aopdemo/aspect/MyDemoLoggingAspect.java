@@ -2,7 +2,6 @@ package com.rakesh.aopdemo.aspect;
 
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 @Aspect
@@ -10,7 +9,9 @@ import org.springframework.stereotype.Component;
 public class MyDemoLoggingAspect {
     // this is where we add all of our related advices for logging
     // let's start with a @Before advice
-    @Before("execution(public void add*())") //calling specific class
+//    @Before("execution(public void add*())") //calling any class that starts with add
+
+    @Before("execution(* add*())")// Match on any return type instead of void only
     public void beforeAddAccountAdvice(){
         System.out.println("\n======>>>> Executing @Before advice on addAccount()");
     }
