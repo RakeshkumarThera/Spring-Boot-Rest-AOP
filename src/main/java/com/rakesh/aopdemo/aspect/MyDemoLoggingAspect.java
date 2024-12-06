@@ -11,7 +11,7 @@ public class MyDemoLoggingAspect {
     // let's start with a @Before advice
 //    @Before("execution(public void add*())") //calling any class that starts with add
 
-    @Before("execution(* add*(com.rakesh.aopdemo.Account, ..))")// Match on any return type instead of void only
+    @Before("execution(* com.rakesh.aopdemo.dao.*.*(..))")// Match on any class, method or arguments in specified package
     public void beforeAddAccountAdvice(){
         System.out.println("\n======>>>> Executing @Before advice on addAccount()");
     }
