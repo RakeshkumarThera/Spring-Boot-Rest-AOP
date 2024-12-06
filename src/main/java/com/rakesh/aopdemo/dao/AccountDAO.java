@@ -1,5 +1,7 @@
 package com.rakesh.aopdemo.dao;
 
+import com.rakesh.aopdemo.Account;
+
 public interface AccountDAO {
-    void addAccount();
+    void addAccount(Account theAccount);
 }
