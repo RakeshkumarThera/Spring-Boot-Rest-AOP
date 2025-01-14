@@ -2,6 +2,7 @@ package com.rakesh.aopdemo.aspect;
 
 import com.rakesh.aopdemo.Account;
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
@@ -10,6 +11,8 @@ import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Aspect
 @Component
 @Order(2)
@@ -17,6 +20,20 @@ public class MyDemoLoggingAspect {
     // this is where we add all of our related advices for logging
     // let's start with a @Before advice
     //    @Before("execution(public void add*())") //calling any class that starts with add
+
+    // add a new advice for @AfterReturning on the findAccounts method
+
+    @AfterReturning(
+            pointcut = "execution(* com.rakesh.aopdemo.dao.AccountDAO.findAccounts(..))",
+            returning = "results")
+    public void afterReturningFindAccountsAdvice(JoinPoint theJoinPoint, List<Account> results){
+        // print out which method we are advising on
+        String method = theJoinPoint.getSignature().toShortString();
+        System.out.println("\n =======>>> Executing @AfterReturning on method: "  + method);
+
+        // print out the results of the method call
+        System.out.println("\n =======>>> result is: "  + results);
+    }
 
     @Before("com.rakesh.aopdemo.aspect.AopExpressions.forDAOPackageNoGetterSetter()")// Match on any class, method or arguments in specified package
     public void beforeAddAccountAdvice(JoinPoint theJoinPoint){
