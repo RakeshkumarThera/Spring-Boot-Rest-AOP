@@ -33,6 +33,27 @@ public class MyDemoLoggingAspect {
 
         // print out the results of the method call
         System.out.println("\n =======>>> result is: "  + results);
+
+
+        // let's post-process the data ... let's modify ;)
+
+        // convert the account names to uppercase
+        converTheAccountNamesToUpperCase(results);
+
+        System.out.println("\n =======>>> result is: "  + results);
+    }
+
+    private void converTheAccountNamesToUpperCase(List<Account> results) {
+        // loop through the accounts
+        for (Account tempAccount : results) {
+
+            // get uppercase versions of name
+            String theUpperName = tempAccount.getName().toUpperCase();
+
+            // update the name on the account
+            tempAccount.setName(theUpperName);
+        }
+
     }
 
     @Before("com.rakesh.aopdemo.aspect.AopExpressions.forDAOPackageNoGetterSetter()")// Match on any class, method or arguments in specified package
