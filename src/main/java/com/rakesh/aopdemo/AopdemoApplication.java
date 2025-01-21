@@ -2,6 +2,7 @@ package com.rakesh.aopdemo;
 
 import com.rakesh.aopdemo.dao.AccountDAO;
 import com.rakesh.aopdemo.dao.MembershipDAO;
+import com.rakesh.aopdemo.service.TrafficFortuneService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,13 +18,25 @@ public class AopdemoApplication {
 	}
 
 	@Bean
-	public CommandLineRunner commandLineRunner(AccountDAO theAccountDAO, MembershipDAO theMembershipDAO) {
+	public CommandLineRunner commandLineRunner(AccountDAO theAccountDAO,
+											   MembershipDAO theMembershipDAO,
+											   TrafficFortuneService theTrafficFortuneService)  {
 		return runner -> {
 //			demoTheBeforeAdvice(theAccountDAO, theMembershipDAO);
 //			demoTheAfterReturningAdvice(theAccountDAO);
 //			demoTheAfterThrowingAdvice(theAccountDAO);
-			demoTheAfterAdvice(theAccountDAO);
+//			demoTheAfterAdvice(theAccountDAO);
+
+			demoTheAroundService(theTrafficFortuneService);
 		};
+	}
+
+	private void demoTheAroundService(TrafficFortuneService theTrafficFortuneService) {
+		System.out.println("\n Main Program: demoTheAroundAdvice");
+		System.out.println("Calling getFortune()");
+		String data = theTrafficFortuneService.getFortune();
+		System.out.println("\n My Fortune is: " + data);
+		System.out.println("Finished");
 	}
 
 	private void demoTheAfterAdvice(AccountDAO theAccountDAO) {
