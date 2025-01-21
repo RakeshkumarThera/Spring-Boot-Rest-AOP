@@ -2,10 +2,7 @@ package com.rakesh.aopdemo.aspect;
 
 import com.rakesh.aopdemo.Account;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.core.annotation.Order;
@@ -22,6 +19,21 @@ public class MyDemoLoggingAspect {
     //    @Before("execution(public void add*())") //calling any class that starts with add
 
     // add a new advice for @AfterReturning on the findAccounts method
+    @AfterThrowing(pointcut = "execution(* com.rakesh.aopdemo.dao.AccountDAO.findAccounts(..))",
+                    throwing = "theExc")
+    public void afterThrowingFindAccountsAdvice(JoinPoint theJoinPoint, Throwable theExc){
+
+        //print out which method we are advising on
+        String method = theJoinPoint.getSignature().toShortString();
+        System.out.println("\n =======>>> Executing @AfterThrowing on method: "  + method);
+
+
+        // log the exception
+        System.out.println("\n =======>>> The Exception is: "  + theExc);
+
+
+    }
+
 
     @AfterReturning(
             pointcut = "execution(* com.rakesh.aopdemo.dao.AccountDAO.findAccounts(..))",
@@ -53,13 +65,11 @@ public class MyDemoLoggingAspect {
             // update the name on the account
             tempAccount.setName(theUpperName);
         }
-
     }
 
     @Before("com.rakesh.aopdemo.aspect.AopExpressions.forDAOPackageNoGetterSetter()")// Match on any class, method or arguments in specified package
     public void beforeAddAccountAdvice(JoinPoint theJoinPoint){
         System.out.println("\n======>>>> Executing @Before advice on addAccount()");
-
 
         // display the method signature
         MethodSignature methodSignature = (MethodSignature) theJoinPoint.getSignature();
@@ -82,6 +92,5 @@ public class MyDemoLoggingAspect {
                 System.out.println("Account Level: " + theAccount.getLevel());
             }
         }
-
     }
 }
