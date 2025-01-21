@@ -14,9 +14,14 @@ import java.util.List;
 @Component
 @Order(2)
 public class MyDemoLoggingAspect {
-    // this is where we add all of our related advices for logging
-    // let's start with a @Before advice
-    //    @Before("execution(public void add*())") //calling any class that starts with add
+
+    @After("execution(* com.rakesh.aopdemo.dao.AccountDAO.findAccounts(..))")
+    public void afterFinallyFindAccountsAdvice(JoinPoint theJoinPoint){
+
+        //print out which method we are advising on
+        String method = theJoinPoint.getSignature().toShortString();
+        System.out.println("\n =======>>> Executing @After (finally) on method: "  + method);
+    }
 
     // add a new advice for @AfterReturning on the findAccounts method
     @AfterThrowing(pointcut = "execution(* com.rakesh.aopdemo.dao.AccountDAO.findAccounts(..))",
